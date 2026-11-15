@@ -1,0 +1,44 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="brand">
+        <img src="{{ '/assets/img/logo.svg' | relative_url }}" alt="Meala Logo" width="26" height="26" />
+        <span class="brand-title">Meala</span>
+      </div>
+      <p class="footer-desc">
+        Open-source flight log database and cross-stack telemetry normalizer for UAV teams and autonomous systems engineers.
+      </p>
+      <p class="footer-copy">&copy; {{ 'now' | date: '%Y' }} Meala (<code>mealadev</code>). MIT Licensed.</p>
+    </div>
+
+    <div>
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="{{ '/#features' | relative_url }}">Features</a></li>
+        <li><a href="{{ '/#architecture' | relative_url }}">Ingestion Pipeline</a></li>
+        <li><a href="{{ '/#editions' | relative_url }}">Self-Hosted vs. Jupyter</a></li>
+        <li><a href="{{ '/docs/schema/' | relative_url }}">Canonical Parquet Schema</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Documentation</h4>
+      <ul>
+        <li><a href="{{ '/docs/' | relative_url }}">Overview</a></li>
+        <li><a href="{{ '/docs/self-hosted/' | relative_url }}">Docker Compose Setup</a></li>
+        <li><a href="{{ '/docs/jupyter/' | relative_url }}">Jupyter & Python Toolkit</a></li>
+        <li><a href="{{ '/docs/api/' | relative_url }}">REST API Reference</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://github.com/mealadev" target="_blank" rel="noopener">GitHub Organization</a></li>
+        <li><a href="https://github.com/orgs/mealadev/discussions" target="_blank" rel="noopener">GitHub Discussions</a></li>
+        <li><a href="https://github.com/mealadev/.github/blob/main/SECURITY.md" target="_blank" rel="noopener">Security Policy</a></li>
+        <li><a href="mailto:hello@meala.dev">hello@meala.dev</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

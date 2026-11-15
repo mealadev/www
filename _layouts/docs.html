@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body>
+  {% include header.html %}
+  <div class="container docs-shell">
+    <aside class="docs-sidebar">
+      {% for group in site.data.navigation.docs %}
+        <div class="docs-nav-group">
+          <h5>{{ group.title }}</h5>
+          <ul>
+            {% for item in group.items %}
+              <li>
+                <a href="{{ item.url | relative_url }}"
+                   class="{% if page.url == item.url %}active{% endif %}">
+                  {{ item.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </aside>
+
+    <article class="docs-content">
+      <div class="docs-breadcrumb">
+        <a href="{{ '/docs/' | relative_url }}">Docs</a> / <span>{{ page.title }}</span>
+      </div>
+      <h1>{{ page.title }}</h1>
+      {% if page.description %}
+        <p class="lead">{{ page.description }}</p>
+      {% endif %}
+      <hr />
+      {{ content }}
+    </article>
+  </div>
+  {% include footer.html %}
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

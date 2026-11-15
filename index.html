@@ -1,0 +1,189 @@
+---
+layout: default
+title: Open-Source UAV Flight Log Database & Telemetry Platform
+---
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-pill">Open Source • ArduPilot • PX4 • INAV</div>
+      <h1>Stop hunting for flight logs on lost SD cards.</h1>
+      <p class="hero-sub">
+        Meala turns raw binary UAV logs (<code>.bin</code>, <code>.ulg</code>, <code>.tlog</code>, <code>.bbl</code>) into a unified, SQL-queryable Apache Parquet telemetry index—available as a self-hosted multi-user server or local Jupyter toolkit.
+      </p>
+      <div class="hero-cta">
+        <a href="{{ '/docs/self-hosted/' | relative_url }}" class="btn btn-primary">Deploy Self-Hosted Server</a>
+        <a href="{{ '/docs/jupyter/' | relative_url }}" class="btn btn-secondary">Explore Jupyter Toolkit</a>
+      </div>
+      <div class="hero-meta">
+        <span><code>docker compose up -d</code></span>
+        <span>•</span>
+        <span>MIT License</span>
+        <span>•</span>
+        <span><a href="https://github.com/mealadev" target="_blank" rel="noopener">github.com/mealadev</a></span>
+      </div>
+    </div>
+
+    <!-- Interactive SQL & Telemetry Preview Widget -->
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <span class="dot red"></span>
+        <span class="dot amber"></span>
+        <span class="dot green"></span>
+        <span class="terminal-title">Interactive Telemetry Query Simulator</span>
+      </div>
+      <div class="terminal-body">
+        <div class="query-presets">
+          <button class="preset-btn active" data-preset="cold">Cold Weather Alerts (&lt; -15°C)</button>
+          <button class="preset-btn" data-preset="px4">PX4 Polymer Cap Tests</button>
+          <button class="preset-btn" data-preset="all">All Fleet Logs</button>
+        </div>
+        <pre class="sql-box" id="heroSqlOutput">SELECT flight_id, vehicle_uid, autopilot, ambient_temp_c, min_vbat
+FROM flights
+WHERE ambient_temp_c &lt;= -15.0 AND had_alert = TRUE;</pre>
+        <div class="mini-table-wrap">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Flight ID</th>
+                <th>Vehicle</th>
+                <th>Stack</th>
+                <th>Temp</th>
+                <th>Min V</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="heroTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Features -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Built for small UAV teams flying real hardware</h2>
+      <p>Enterprise flight-data infrastructure without needing a 15-person internal data engineering team.</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="feature-card">
+        <div class="icon-box">⬡</div>
+        <h3>Cross-Stack Parquet Normalization</h3>
+        <p>Automatically converts ArduPilot DataFlash, PX4 ULog, MAVLink TLog, and INAV Blackbox files into a single standardized Pandas &amp; Apache Parquet schema.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-box">⚡</div>
+        <h3>Instant SQL Fleet Filtering</h3>
+        <p>Query 5,000+ flights in milliseconds by ambient temperature, battery voltage sag, vibration clipping, EKF failsafes, firmware Git hash, or pilot notes.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-box">🌦️</div>
+        <h3>Automated Weather Enrichment</h3>
+        <p>Matches takeoff GPS coordinates and UTC timestamps against historical meteorological records to catch sub-zero capacitor derating and wind anomalies.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-box">📈</div>
+        <h3>Multi-Log Overlay Comparison</h3>
+        <p>Overlay up to four heterogeneous logs side-by-side or on shared axes—compare an ArduPilot <code>.bin</code> directly against a PX4 <code>.ulg</code>.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-box">📡</div>
+        <h3>Zero-Touch Hardware Ingestion</h3>
+        <p>REST API with <code>X-API-Key</code> auth built for ESP32-S3 Wi-Fi telemetry bridges, DroneCAN battery tags, and one-button mobile pilot check-ins.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-box">🐍</div>
+        <h3>Native Jupyter &amp; Python Workflow</h3>
+        <p>Filter flights in SQL, pull only matching Parquet files into Pandas DataFrames, and run custom FFT vibration or PID step-response notebooks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture Pipeline -->
+<section id="architecture" class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>How the Telemetry Pipeline Works</h2>
+      <p>Decoupled ingestion turns 500MB binary logs into lightweight SQL rows and compressed columnar streams.</p>
+    </div>
+
+    <div class="pipeline-steps">
+      <div class="step-card">
+        <span class="step-num">01</span>
+        <h4>Ingest</h4>
+        <p>Upload via web dashboard, Python CLI, or automatic ESP32-S3 MAVLink FTP Wi-Fi sync upon landing.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <span class="step-num">02</span>
+        <h4>Normalize</h4>
+        <p>Python workers map autopilot-specific topics into canonical SI units and write compressed <code>.parquet</code> files.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <span class="step-num">03</span>
+        <h4>Enrich &amp; Index</h4>
+        <p>Extracts takeoff/landing bounds, min voltage, controller params (<code>JSONB</code>), and historical weather into SQL.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <span class="step-num">04</span>
+        <h4>Query &amp; Plot</h4>
+        <p>Filter instantly in the multi-user web GUI or stream selected Parquet logs into Jupyter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Two Editions Comparison -->
+<section id="editions" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Two Ways to Run Meala</h2>
+      <p>Start locally on a laptop at the airfield, or deploy the multi-user server for your entire engineering team.</p>
+    </div>
+
+    <div class="editions-grid">
+      <div class="edition-card">
+        <div class="edition-badge">Local-First R&amp;D</div>
+        <h3>Jupyter &amp; Python Edition</h3>
+        <p>Zero-server telemetry forensics powered by SQLite, Pandas, and Apache Parquet. Ideal for solo engineers, offline range testing, and custom Matplotlib/SciPy analysis.</p>
+        <ul class="check-list">
+          <li>SQLite metadata database + local Parquet store</li>
+          <li>Offline operation with zero cloud dependencies</li>
+          <li>Ready-to-run VS Code &amp; JupyterLab notebooks</li>
+        </ul>
+        <div class="code-snippet">
+          <code>git clone https://github.com/mealadev/meala-jupyter.git</code>
+        </div>
+        <a href="{{ '/docs/jupyter/' | relative_url }}" class="btn btn-secondary full-width">Read Jupyter Guide</a>
+      </div>
+
+      <div class="edition-card featured">
+        <div class="edition-badge accent">Team Operational Hub</div>
+        <h3>Self-Hosted Server Edition</h3>
+        <p>A complete Docker Compose stack (<code>PostgreSQL</code> + <code>FastAPI</code> + <code>Nginx</code>) for 5–25 person UAV teams to centralize logs, weather telemetry, and multi-log overlays.</p>
+        <ul class="check-list">
+          <li>Multi-user web dashboard &amp; takeoff map</li>
+          <li>REST API for automated Wi-Fi bridge &amp; mobile check-in uploads</li>
+          <li>Runs on a local workshop server, NAS, or $10/mo VPS</li>
+        </ul>
+        <div class="code-snippet">
+          <code>git clone https://github.com/mealadev/meala.git && docker compose up -d</code>
+        </div>
+        <a href="{{ '/docs/self-hosted/' | relative_url }}" class="btn btn-primary full-width">Read Self-Hosted Guide</a>
+      </div>
+    </div>
+  </div>
+</section>

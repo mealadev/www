@@ -1,0 +1,32 @@
+title: Meala
+email: hello@meala.dev
+description: >-
+  Open-source multi-user flight log database & cross-stack UAV telemetry platform.
+  Normalize ArduPilot, PX4, and INAV logs into SQL-queryable Apache Parquet datasets.
+baseurl: ""
+url: "https://meala.dev"
+github_username: mealadev
+
+markdown: kramdown
+permalink: pretty
+
+collections:
+  docs:
+    output: true
+    permalink: /docs/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "docs"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md

@@ -1,0 +1,28 @@
+main:
+  - title: "Features"
+    url: "/#features"
+  - title: "Architecture"
+    url: "/#architecture"
+  - title: "Editions"
+    url: "/#editions"
+  - title: "Documentation"
+    url: "/docs/"
+  - title: "GitHub"
+    url: "https://github.com/mealadev"
+    external: true
+
+docs:
+  - title: "Getting Started"
+    items:
+      - title: "Overview & Concepts"
+        url: "/docs/"
+      - title: "Quickstart (Self-Hosted)"
+        url: "/docs/self-hosted/"
+      - title: "Quickstart (Jupyter & Python)"
+        url: "/docs/jupyter/"
+  - title: "Telemetry & API"
+    items:
+      - title: "Canonical Parquet Schema"
+        url: "/docs/schema/"
+      - title: "REST API & Ingestion"
+        url: "/docs/api/"
